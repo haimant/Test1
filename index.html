@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ===== Primary SEO ===== -->
+  <title>Pet Services Directory India | Vets, Trainers, Groomers, Boarding &amp; Pet Shops</title>
+  <meta name="description" content="Find India's top-rated veterinary clinics, dog trainers, pet groomers, boarding hostels, and pet food stores. City-wise and breed-specific directory starting with Mumbai.">
+  <meta name="keywords" content="pet services India, veterinary clinics Mumbai, dog trainers Mumbai, pet grooming Mumbai, pet boarding Mumbai, pet food stores Mumbai, vet near me Mumbai, dog groomer Mumbai, pet hostel Mumbai, pet shop Mumbai">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="PetServicesIndia">
+  <link rel="canonical" href="https://petservicesindia.in/">
+
+  <!-- ===== Open Graph ===== -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://petservicesindia.in/">
+  <meta property="og:site_name" content="PetServicesIndia">
+  <meta property="og:title" content="Pet Services Directory India — Vets, Trainers, Groomers & More">
+  <meta property="og:description" content="India's most complete pet services directory. Find trusted vets, dog trainers, pet groomers, boarding facilities, and pet food stores city-wise and breed-specific.">
+  <meta property="og:image" content="https://petservicesindia.in/og-cover.jpg">
+  <meta property="og:locale" content="en_IN">
+
+  <!-- ===== Twitter Card ===== -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Pet Services Directory India | Vets, Trainers, Groomers &amp; More">
+  <meta name="twitter:description" content="Find top-rated pet services across Indian cities. Breed-specific and city-wise directory for vets, trainers, groomers, boarding, and pet shops.">
+  <meta name="twitter:image" content="https://petservicesindia.in/og-cover.jpg">
+
+  <!-- ===== Favicon ===== -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>">
+
+  <!-- ===== Preconnect for Fonts ===== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- ===== Stylesheet ===== -->
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- ===== Static JSON-LD: WebSite + SearchAction ===== -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "PetServicesIndia",
+    "description": "India's city-wise, breed-specific pet services directory covering vets, trainers, groomers, boarding, and pet shops.",
+    "url": "https://petservicesindia.in/",
+    "inLanguage": "en-IN",
+    "publisher": {
+      "@type": "Organization",
+      "name": "PetServicesIndia",
+      "url": "https://petservicesindia.in/"
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://petservicesindia.in/?q={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- ===== Dynamic JSON-LD: ItemList (updated by app.js) ===== -->
+  <script type="application/ld+json" id="ld-itemlist"></script>
+</head>
+
+<body>
+
+  <!-- Skip navigation link for screen readers -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- =====================================================
+       SITE HEADER — Sticky
+       ===================================================== -->
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+
+      <!-- Logo -->
+      <a href="/" class="logo" aria-label="PetServicesIndia — Home">
+        <div class="logo-icon" aria-hidden="true">🐾</div>
+        <div class="logo-text">
+          <span class="brand">PetServicesIndia</span>
+          <span class="tagline">Your Pet. Our Priority.</span>
+        </div>
+      </a>
+
+      <!-- City Selector -->
+      <div class="city-selector-wrap">
+        <span class="city-icon" aria-hidden="true">📍</span>
+        <label for="city-select" class="sr-only">Select city</label>
+        <select id="city-select" class="city-selector" aria-label="Select city">
+          <!-- Populated by app.js -->
+          <option value="mumbai">🌊 Mumbai</option>
+        </select>
+      </div>
+
+      <!-- Search -->
+      <div class="search-wrap" role="search">
+        <span class="search-icon" aria-hidden="true">🔍</span>
+        <label for="search-input" class="sr-only">Search pet services</label>
+        <input
+          type="search"
+          id="search-input"
+          class="search-input"
+          placeholder="Search vets, trainers, groomers..."
+          autocomplete="off"
+          spellcheck="false"
+          aria-label="Search pet services by name, area, or specialty"
+        >
+        <button id="search-clear" class="search-clear" aria-label="Clear search">×</button>
+      </div>
+
+      <!-- Mobile Filter Button -->
+      <button id="mobile-filter-btn" class="mobile-filter-btn" aria-label="Open filters" aria-expanded="false" aria-controls="filter-overlay">
+        <span aria-hidden="true">⚙</span> Filters
+        <span class="filter-count" id="mobile-filter-count"></span>
+      </button>
+
+    </div>
+  </header>
+
+  <!-- =====================================================
+       CATEGORY NAVIGATION — Horizontal Scrollable Tabs
+       ===================================================== -->
+  <nav class="category-nav" aria-label="Service categories">
+    <div class="category-nav-inner" role="list">
+      <button class="cat-tab active" data-category="all" aria-pressed="true" role="listitem">
+        <span class="cat-icon" aria-hidden="true">🐾</span>
+        All Services
+        <span class="cat-count" id="count-all">0</span>
+      </button>
+      <button class="cat-tab" data-category="vets" aria-pressed="false" role="listitem">
+        <span class="cat-icon" aria-hidden="true">🩺</span>
+        Vets &amp; Hospitals
+        <span class="cat-count" id="count-vets">0</span>
+      </button>
+      <button class="cat-tab" data-category="trainers" aria-pressed="false" role="listitem">
+        <span class="cat-icon" aria-hidden="true">🐕</span>
+        Dog Trainers
+        <span class="cat-count" id="count-trainers">0</span>
+      </button>
+      <button class="cat-tab" data-category="groomers" aria-pressed="false" role="listitem">
+        <span class="cat-icon" aria-hidden="true">✂️</span>
+        Pet Groomers
+        <span class="cat-count" id="count-groomers">0</span>
+      </button>
+      <button class="cat-tab" data-category="boarding" aria-pressed="false" role="listitem">
+        <span class="cat-icon" aria-hidden="true">🏨</span>
+        Pet Boarding
+        <span class="cat-count" id="count-boarding">0</span>
+      </button>
+      <button class="cat-tab" data-category="petfood" aria-pressed="false" role="listitem">
+        <span class="cat-icon" aria-hidden="true">🛒</span>
+        Pet Food &amp; Shops
+        <span class="cat-count" id="count-petfood">0</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- =====================================================
+       CITY HERO BANNER
+       ===================================================== -->
+  <section class="city-banner" aria-labelledby="banner-h1">
+    <div class="city-banner-inner">
+      <h1 id="banner-h1">
+        Top Pet Services in <span>Mumbai</span>
+      </h1>
+      <p id="banner-subtitle">
+        Find trusted vets, trainers, groomers, boarding, and pet food stores in Mumbai, Maharashtra.
+      </p>
+      <div class="banner-stats" id="banner-stats" aria-label="Directory statistics">
+        <!-- Populated by app.js -->
+        <div class="stat-item"><div class="stat-value">44</div><div class="stat-label">Total Listings</div></div>
+        <div class="stat-item"><div class="stat-value">8</div><div class="stat-label">Vet Clinics</div></div>
+        <div class="stat-item"><div class="stat-value">16</div><div class="stat-label">Trainers &amp; Groomers</div></div>
+        <div class="stat-item"><div class="stat-value">10</div><div class="stat-label">Boarding Options</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       MAIN LAYOUT — Sidebar + Content
+       ===================================================== -->
+  <div class="main-container">
+
+    <!-- ---- DESKTOP FILTER SIDEBAR ---- -->
+    <aside class="filter-sidebar" aria-label="Refine listings">
+
+      <!-- Category Filter -->
+      <div class="filter-card">
+        <div class="filter-title">Category</div>
+        <div class="filter-group" id="sidebar-category-filters" role="group" aria-label="Filter by category">
+          <!-- Populated by app.js -->
+        </div>
+        <button class="filter-reset hidden" id="filter-reset-btn" aria-label="Reset all filters">
+          ✕ Reset filters
+        </button>
+      </div>
+
+      <!-- Breed / Type Filter -->
+      <div class="filter-card">
+        <div class="filter-title">Breed / Type</div>
+        <div class="filter-group" id="sidebar-breed-filters" role="group" aria-label="Filter by breed type">
+          <!-- Populated by app.js -->
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- ---- MAIN CONTENT ---- -->
+    <main id="main-content" class="content-area" aria-label="Pet service listings">
+
+      <!-- Results bar -->
+      <div class="results-bar" aria-live="polite" aria-atomic="true">
+        <span class="results-count" id="results-count">Loading listings…</span>
+        <div class="active-filters" id="active-filters" aria-label="Active filters"></div>
+      </div>
+
+      <!-- Listings grid — populated by app.js -->
+      <div class="listings-grid" id="listings-grid" role="feed" aria-label="Service listings">
+        <!-- Cards rendered here by app.js -->
+
+        <!-- Loading skeleton (hidden by JS once loaded) -->
+        <div class="skeleton-card" aria-hidden="true">
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <div class="skel" style="width:32px;height:32px;border-radius:8px;flex-shrink:0"></div>
+            <div style="flex:1">
+              <div class="skel skel-title" style="margin-bottom:6px"></div>
+              <div class="skel skel-sub"></div>
+            </div>
+          </div>
+          <div class="skel skel-text"></div>
+          <div class="skel skel-text-short"></div>
+          <div class="skel" style="height:28px;width:120px;border-radius:20px"></div>
+        </div>
+        <div class="skeleton-card" aria-hidden="true">
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <div class="skel" style="width:32px;height:32px;border-radius:8px;flex-shrink:0"></div>
+            <div style="flex:1">
+              <div class="skel skel-title" style="margin-bottom:6px"></div>
+              <div class="skel skel-sub"></div>
+            </div>
+          </div>
+          <div class="skel skel-text"></div>
+          <div class="skel skel-text-short"></div>
+          <div class="skel" style="height:28px;width:120px;border-radius:20px"></div>
+        </div>
+        <div class="skeleton-card" aria-hidden="true">
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <div class="skel" style="width:32px;height:32px;border-radius:8px;flex-shrink:0"></div>
+            <div style="flex:1">
+              <div class="skel skel-title" style="margin-bottom:6px"></div>
+              <div class="skel skel-sub"></div>
+            </div>
+          </div>
+          <div class="skel skel-text"></div>
+          <div class="skel skel-text-short"></div>
+          <div class="skel" style="height:28px;width:120px;border-radius:20px"></div>
+        </div>
+
+      </div><!-- /#listings-grid -->
+
+    </main><!-- /#main-content -->
+
+  </div><!-- /.main-container -->
+
+  <!-- =====================================================
+       CITIES SECTION — Browse by City
+       ===================================================== -->
+  <section class="cities-section" aria-labelledby="cities-heading">
+    <div class="cities-section-inner">
+      <h2 id="cities-heading">Browse by City</h2>
+      <p>We're expanding! Mumbai is live — more cities coming soon.</p>
+      <div class="cities-grid" id="cities-grid" role="list">
+        <!-- Populated by app.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       SITE FOOTER
+       ===================================================== -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-grid">
+
+        <!-- Brand column -->
+        <div class="footer-brand">
+          <div class="logo" style="margin-bottom:12px;">
+            <div class="logo-icon" aria-hidden="true">🐾</div>
+            <div class="logo-text">
+              <span class="brand">PetServicesIndia</span>
+              <span class="tagline">Your Pet. Our Priority.</span>
+            </div>
+          </div>
+          <p class="footer-tagline">
+            India's most comprehensive pet services directory. Find trusted, verified pet care professionals city-wise and breed-specific — all in one place.
+          </p>
+        </div>
+
+        <!-- Cities column -->
+        <div>
+          <div class="footer-heading">Browse by City</div>
+          <ul class="footer-links" aria-label="City links">
+            <li><a href="?city=mumbai">🌊 Mumbai</a></li>
+            <li><span class="coming-soon-link" aria-label="Delhi — Coming Soon">🕌 Delhi <em>(Soon)</em></span></li>
+            <li><span class="coming-soon-link" aria-label="Bangalore — Coming Soon">🌿 Bangalore <em>(Soon)</em></span></li>
+            <li><span class="coming-soon-link" aria-label="Pune — Coming Soon">🏔️ Pune <em>(Soon)</em></span></li>
+            <li><span class="coming-soon-link" aria-label="Chennai — Coming Soon">🌴 Chennai <em>(Soon)</em></span></li>
+            <li><span class="coming-soon-link" aria-label="Hyderabad — Coming Soon">💎 Hyderabad <em>(Soon)</em></span></li>
+          </ul>
+        </div>
+
+        <!-- Categories column -->
+        <div>
+          <div class="footer-heading">Categories</div>
+          <ul class="footer-links" aria-label="Category links">
+            <li><a href="?city=mumbai&amp;category=vets">🩺 Vet Clinics</a></li>
+            <li><a href="?city=mumbai&amp;category=trainers">🐕 Dog Trainers</a></li>
+            <li><a href="?city=mumbai&amp;category=groomers">✂️ Pet Groomers</a></li>
+            <li><a href="?city=mumbai&amp;category=boarding">🏨 Pet Boarding</a></li>
+            <li><a href="?city=mumbai&amp;category=petfood">🛒 Pet Food &amp; Shops</a></li>
+          </ul>
+        </div>
+
+        <!-- Breed links column -->
+        <div>
+          <div class="footer-heading">By Breed Type</div>
+          <ul class="footer-links" aria-label="Breed filter links">
+            <li><a href="?breed=small">🐩 Small Breeds</a></li>
+            <li><a href="?breed=large">🦮 Large Breeds</a></li>
+            <li><a href="?breed=aggressive">⚡ Aggressive / Reactive</a></li>
+            <li><a href="?breed=puppy">🐶 Puppies</a></li>
+          </ul>
+        </div>
+
+      </div><!-- /.footer-grid -->
+
+      <div class="footer-bottom">
+        <p>© 2026 PetServicesIndia. All rights reserved.</p>
+        <p class="footer-disclaimer">
+          Listings are for informational purposes only. Always verify details directly with service providers before visiting. PetServicesIndia does not endorse or guarantee any listed service.
+        </p>
+      </div>
+
+    </div><!-- /.footer-inner -->
+  </footer>
+
+  <!-- =====================================================
+       MOBILE FILTER OVERLAY + SHEET
+       ===================================================== -->
+  <div class="filter-overlay" id="filter-overlay" role="dialog" aria-modal="true" aria-labelledby="filter-sheet-title">
+    <div class="filter-sheet" role="document">
+
+      <div class="filter-sheet-header">
+        <h2 class="filter-sheet-title" id="filter-sheet-title">Filter Listings</h2>
+        <button class="filter-sheet-close" id="filter-sheet-close" aria-label="Close filters">×</button>
+      </div>
+
+      <div id="mobile-filter-form">
+        <!-- Category -->
+        <div class="filter-section-label">Category</div>
+        <div id="mobile-category-filters" role="group" aria-label="Filter by category">
+          <!-- Populated by app.js -->
+        </div>
+
+        <!-- Breed -->
+        <div class="filter-section-label">Breed / Type</div>
+        <div id="mobile-breed-filters" role="group" aria-label="Filter by breed type">
+          <!-- Populated by app.js -->
+        </div>
+      </div>
+
+    </div><!-- /.filter-sheet -->
+  </div><!-- /.filter-overlay -->
+
+  <!-- =====================================================
+       BACK TO TOP BUTTON
+       ===================================================== -->
+  <button id="back-to-top" class="back-to-top" aria-label="Back to top">↑</button>
+
+  <!-- =====================================================
+       EXTRA CSS for elements rendered by app.js
+       ===================================================== -->
+  <style>
+    /* Category section headers (rendered in 'all' view) */
+    .category-section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 20px 0 10px;
+      margin-top: 8px;
+      grid-column: 1 / -1;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 4px;
+    }
+    .category-section-header:first-child { margin-top: 0; padding-top: 0; }
+    .section-icon { font-size: 22px; }
+    .section-title { font-size: 18px; font-weight: 800; color: var(--text); flex: 1; }
+    .section-count { font-size: 13px; color: var(--text-muted); background: var(--bg-alt); border-radius: 20px; padding: 3px 10px; font-weight: 600; }
+
+    /* Footer coming soon spans */
+    .coming-soon-link { color: rgba(255,255,255,0.3); font-size: 14px; }
+    .coming-soon-link em { font-style: normal; font-size: 11px; }
+  </style>
+
+  <!-- =====================================================
+       SCRIPTS — data.js must load before app.js
+       ===================================================== -->
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
