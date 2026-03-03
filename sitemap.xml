@@ -184,15 +184,87 @@
     <priority>0.7</priority>
   </url>
 
-  <!-- ===== Future Cities (add below as data is added) =====
+  <!-- ===== Bangalore — All Services ===== -->
   <url>
-    <loc>https://petservicesindia.in/?city=delhi</loc>
-    <lastmod>TBD</lastmod>
+    <loc>https://petservicesindia.in/?city=bangalore</loc>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
+
+  <!-- ===== Bangalore — Veterinary Clinics ===== -->
   <url>
-    <loc>https://petservicesindia.in/?city=bangalore</loc>
+    <loc>https://petservicesindia.in/?city=bangalore&amp;category=vets</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- ===== Bangalore — Dog Trainers ===== -->
+  <url>
+    <loc>https://petservicesindia.in/?city=bangalore&amp;category=trainers</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- ===== Bangalore — Pet Groomers ===== -->
+  <url>
+    <loc>https://petservicesindia.in/?city=bangalore&amp;category=groomers</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- ===== Bangalore — Pet Boarding ===== -->
+  <url>
+    <loc>https://petservicesindia.in/?city=bangalore&amp;category=boarding</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- ===== Bangalore — Pet Food & Shops ===== -->
+  <url>
+    <loc>https://petservicesindia.in/?city=bangalore&amp;category=petfood</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- ===== Bangalore — Breed-Specific ===== -->
+  <url>
+    <loc>https://petservicesindia.in/?city=bangalore&amp;breed=large</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://petservicesindia.in/?city=bangalore&amp;breed=aggressive</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://petservicesindia.in/?city=bangalore&amp;breed=puppy</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- ===== Bangalore — Trainers by Breed ===== -->
+  <url>
+    <loc>https://petservicesindia.in/?city=bangalore&amp;category=trainers&amp;breed=aggressive</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+
+  <!-- ===== Future Cities (add below as data is added) =====
+  <url>
+    <loc>https://petservicesindia.in/?city=delhi</loc>
     <lastmod>TBD</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
