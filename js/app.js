@@ -12,7 +12,7 @@
      Single source of truth for all active filters/UI state
      ========================================================= */
   var state = {
-    city:     'mumbai',
+    city:     '',       // empty = no city selected yet (show welcome)
     category: 'all',
     breed:    'all',
     search:   ''
@@ -53,6 +53,8 @@
      FILTER ENGINE
      ========================================================= */
   function filterListings() {
+    if (!state.city) return [];
+
     var q = state.search.toLowerCase().trim();
 
     return data.LISTINGS.filter(function (l) {
@@ -93,6 +95,8 @@
     var counts = { all: 0 };
     Object.keys(data.CATEGORIES).forEach(function (k) { counts[k] = 0; });
 
+    if (!state.city) return counts;
+
     var q = state.search.toLowerCase().trim();
 
     data.LISTINGS.forEach(function (l) {
@@ -117,7 +121,7 @@
      Injected dynamically so search engines see current results
      ========================================================= */
   function updateStructuredData(listings) {
-    var cityInfo = data.CITIES[state.city];
+    var cityInfo = state.city ? data.CITIES[state.city] : null;
     var catLabel = state.category === 'all'
       ? 'Pet Services'
       : (data.CATEGORIES[state.category] ? data.CATEGORIES[state.category].label : 'Pet Services');
@@ -137,19 +141,20 @@
           address: {
             '@type':          'PostalAddress',
             streetAddress:    l.address || l.area,
-            addressLocality:  cityInfo ? cityInfo.name : 'Mumbai',
-            addressRegion:    cityInfo ? cityInfo.state : 'Maharashtra',
+            addressLocality:  cityInfo ? cityInfo.name : '',
+            addressRegion:    cityInfo ? cityInfo.state : '',
             addressCountry:   'IN'
           }
         }
       };
     });
 
+    var cityName = cityInfo ? cityInfo.name : 'India';
     var schema = {
       '@context':    'https://schema.org',
       '@type':       'ItemList',
-      name:          catLabel + ' in ' + (cityInfo ? cityInfo.name : 'Mumbai'),
-      description:   'Top-rated ' + catLabel.toLowerCase() + ' in ' + (cityInfo ? cityInfo.name : 'Mumbai') + ', India',
+      name:          catLabel + ' in ' + cityName,
+      description:   'Top-rated ' + catLabel.toLowerCase() + ' in ' + cityName + ', India',
       numberOfItems: listings.length,
       itemListElement: items
     };
@@ -164,7 +169,7 @@
      ========================================================= */
   function syncURL() {
     var params = new URLSearchParams();
-    if (state.city     !== 'mumbai') params.set('city',     state.city);
+    if (state.city)                  params.set('city',     state.city);
     if (state.category !== 'all')    params.set('category', state.category);
     if (state.breed    !== 'all')    params.set('breed',    state.breed);
     if (state.search)                params.set('q',        state.search);
@@ -268,6 +273,38 @@
   }
 
   /* =========================================================
+     RENDER — WELCOME SCREEN (no city selected)
+     ========================================================= */
+  function renderWelcome() {
+    var activeCities = [];
+    Object.keys(data.CITIES).forEach(function (key) {
+      var city = data.CITIES[key];
+      if (city.active) {
+        var count = data.LISTINGS.filter(function (l) { return l.city === key; }).length;
+        activeCities.push({ key: key, name: city.name, emoji: city.emoji, state: city.state, count: count });
+      }
+    });
+
+    var cardsHtml = activeCities.map(function (c) {
+      return '<button class="welcome-city-card" data-city="' + c.key + '" aria-label="Browse pet services in ' + escapeHTML(c.name) + '">'
+        + '<div class="welcome-city-emoji">' + c.emoji + '</div>'
+        + '<div class="welcome-city-name">' + escapeHTML(c.name) + '</div>'
+        + '<div class="welcome-city-state">' + escapeHTML(c.state) + '</div>'
+        + '<div class="welcome-city-count">' + c.count + ' listings</div>'
+        + '</button>';
+    }).join('');
+
+    return [
+      '<div class="welcome-screen">',
+      '  <div class="welcome-icon" aria-hidden="true">🐾</div>',
+      '  <h2 class="welcome-title">Welcome to PetServicesIndia</h2>',
+      '  <p class="welcome-subtitle">Select a city to discover trusted vets, dog trainers, groomers, boarding facilities, and pet food stores near you.</p>',
+      '  <div class="welcome-cities-grid">' + cardsHtml + '</div>',
+      '</div>'
+    ].join('\n');
+  }
+
+  /* =========================================================
      RENDER — EMPTY STATE
      ========================================================= */
   function renderEmpty() {
@@ -288,9 +325,38 @@
      Called whenever state changes
      ========================================================= */
   function render() {
-    var listings   = filterListings();
     var container  = document.getElementById('listings-grid');
     var countEl    = document.getElementById('results-count');
+
+    // --- WELCOME STATE: no city selected ---
+    if (!state.city) {
+      // Hide category counts
+      $$('.cat-tab').forEach(function (tab) {
+        var countBadge = tab.querySelector('.cat-count');
+        if (countBadge) countBadge.textContent = '0';
+      });
+
+      if (countEl) countEl.innerHTML = 'Select a city above to browse listings';
+      renderActiveFilters();
+
+      if (!container) return;
+      container.innerHTML = renderWelcome();
+
+      // Wire welcome city card clicks
+      $$('.welcome-city-card', container).forEach(function (card) {
+        card.addEventListener('click', function () {
+          selectCity(card.dataset.city);
+        });
+      });
+
+      updateStructuredData([]);
+      syncURL();
+      document.title = 'Pet Services Directory India | Vets, Trainers, Groomers, Boarding & Pet Shops';
+      return;
+    }
+
+    // --- NORMAL STATE: city is selected ---
+    var listings   = filterListings();
     var cityInfo   = data.CITIES[state.city];
     var cityName   = cityInfo ? cityInfo.name : state.city;
 
@@ -559,11 +625,11 @@
       var statusText = isActive ? 'Currently Viewing' : (city.active ? 'Available' : 'Coming Soon');
 
       if (city.active && !isActive) {
-        html += '<a href="?city=' + key + '" class="' + cls + '" aria-label="View pet services in ' + escapeHTML(city.name) + '">'
+        html += '<button class="' + cls + '" data-switch-city="' + key + '" aria-label="View pet services in ' + escapeHTML(city.name) + '">'
           + '<div class="city-emoji">' + city.emoji + '</div>'
           + '<div class="city-name">' + escapeHTML(city.name) + '</div>'
           + '<div class="city-status">' + statusText + '</div>'
-          + '</a>';
+          + '</button>';
       } else {
         html += '<div class="' + cls + '">'
           + '<div class="city-emoji">' + city.emoji + '</div>'
@@ -574,20 +640,42 @@
     });
 
     grid.innerHTML = html;
+
+    // Wire city card click handlers
+    $$('[data-switch-city]', grid).forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        selectCity(btn.dataset.switchCity);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
   }
 
   /* =========================================================
      BUILD BANNER STATS
      ========================================================= */
   function buildBannerStats() {
+    var statsEl = document.getElementById('banner-stats');
+    if (!statsEl) return;
+
+    if (!state.city) {
+      // Welcome state — show aggregate stats
+      var totalListings = data.LISTINGS.length;
+      var activeCityCount = Object.keys(data.CITIES).filter(function (k) { return data.CITIES[k].active; }).length;
+      var catCount = Object.keys(data.CATEGORIES).length;
+
+      statsEl.innerHTML = [
+        '<div class="stat-item"><div class="stat-value">' + totalListings + '</div><div class="stat-label">Total Listings</div></div>',
+        '<div class="stat-item"><div class="stat-value">' + activeCityCount + '</div><div class="stat-label">Cities Live</div></div>',
+        '<div class="stat-item"><div class="stat-value">' + catCount + '</div><div class="stat-label">Categories</div></div>'
+      ].join('');
+      return;
+    }
+
     var cityListings = data.LISTINGS.filter(function (l) { return l.city === state.city; });
     var counts = {};
     cityListings.forEach(function (l) {
       counts[l.category] = (counts[l.category] || 0) + 1;
     });
-
-    var statsEl = document.getElementById('banner-stats');
-    if (!statsEl) return;
 
     var stats = [
       { value: cityListings.length, label: 'Total Listings' },
@@ -608,10 +696,17 @@
      BUILD BANNER H1 / SUBTITLE
      ========================================================= */
   function buildBannerText() {
-    var cityInfo = data.CITIES[state.city];
     var h1 = document.getElementById('banner-h1');
     var sub = document.getElementById('banner-subtitle');
 
+    if (!state.city) {
+      // Welcome state — no city selected
+      if (h1) h1.innerHTML = 'India\'s Pet Services <span>Directory</span>';
+      if (sub) sub.textContent = 'Find trusted vets, trainers, groomers, boarding, and pet food stores across India. Select a city to get started.';
+      return;
+    }
+
+    var cityInfo = data.CITIES[state.city];
     if (h1 && cityInfo) {
       h1.innerHTML = 'Top Pet Services in <span>' + escapeHTML(cityInfo.name) + '</span>';
     }
@@ -629,6 +724,12 @@
     if (!sel) return;
 
     var html = '';
+
+    // Placeholder option when no city is selected
+    if (!state.city) {
+      html += '<option value="" selected disabled>Select a City</option>';
+    }
+
     Object.keys(data.CITIES).forEach(function (key) {
       var city = data.CITIES[key];
       if (!city.active) return;
@@ -637,6 +738,39 @@
         + '</option>';
     });
     sel.innerHTML = html;
+  }
+
+  /* =========================================================
+     SELECT CITY — Central function for switching cities
+     Called from: city selector dropdown, welcome cards, city section cards
+     ========================================================= */
+  function selectCity(cityKey) {
+    if (!cityKey || !data.CITIES[cityKey]) return;
+
+    state.city = cityKey;
+
+    // Update the dropdown to reflect the new city
+    var sel = document.getElementById('city-select');
+    if (sel) {
+      // Remove placeholder option if it exists
+      var placeholder = sel.querySelector('option[value=""]');
+      if (placeholder) placeholder.remove();
+      sel.value = cityKey;
+    }
+
+    // Update banner, stats, city cards
+    buildBannerText();
+    buildBannerStats();
+    buildCitiesSection();
+
+    // Re-render listings
+    render();
+
+    // Scroll to top of listings on mobile
+    if (window.innerWidth < 1024) {
+      var mainEl = document.getElementById('main-content');
+      if (mainEl) mainEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 
   /* =========================================================
@@ -707,11 +841,7 @@
     var citySelect = document.getElementById('city-select');
     if (citySelect) {
       citySelect.addEventListener('change', function () {
-        state.city = this.value;
-        buildBannerText();
-        buildBannerStats();
-        buildCitiesSection();
-        render();
+        selectCity(this.value);
       });
     }
 
@@ -752,6 +882,15 @@
         resetAllFilters();
       });
     }
+
+    // ---- Footer city links (use JS instead of page reload) ----
+    $$('[data-city-link]').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        selectCity(link.dataset.cityLink);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
   }
 
   /* =========================================================
