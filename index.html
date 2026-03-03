@@ -6,8 +6,8 @@
 
   <!-- ===== Primary SEO ===== -->
   <title>Pet Services Directory India | Vets, Trainers, Groomers, Boarding &amp; Pet Shops</title>
-  <meta name="description" content="Find India's top-rated veterinary clinics, dog trainers, pet groomers, boarding hostels, and pet food stores. City-wise and breed-specific directory starting with Mumbai.">
-  <meta name="keywords" content="pet services India, veterinary clinics Mumbai, dog trainers Mumbai, pet grooming Mumbai, pet boarding Mumbai, pet food stores Mumbai, vet near me Mumbai, dog groomer Mumbai, pet hostel Mumbai, pet shop Mumbai">
+  <meta name="description" content="Find India's top-rated veterinary clinics, dog trainers, pet groomers, boarding hostels, and pet food stores. City-wise and breed-specific directory — Mumbai, Assam, Bangalore, and Kolkata now live.">
+  <meta name="keywords" content="pet services India, veterinary clinics Mumbai, dog trainers Mumbai, pet grooming Mumbai, pet boarding Mumbai, pet food stores Mumbai, vet Guwahati, dog trainer Assam, pet groomer Guwahati, vet Bangalore, dog trainer Bangalore, pet groomer Bangalore, pet boarding Bangalore, vet Kolkata, dog trainer Kolkata, pet groomer Kolkata, pet boarding Kolkata, pet shop Kolkata">
   <meta name="robots" content="index, follow">
   <meta name="author" content="PetServicesIndia">
   <link rel="canonical" href="https://petservicesindia.in/">
@@ -93,7 +93,7 @@
         <label for="city-select" class="sr-only">Select city</label>
         <select id="city-select" class="city-selector" aria-label="Select city">
           <!-- Populated by app.js -->
-          <option value="mumbai">🌊 Mumbai</option>
+          <option value="" selected disabled>Select a City</option>
         </select>
       </div>
 
@@ -166,17 +166,13 @@
   <section class="city-banner" aria-labelledby="banner-h1">
     <div class="city-banner-inner">
       <h1 id="banner-h1">
-        Top Pet Services in <span>Mumbai</span>
+        India's Pet Services <span>Directory</span>
       </h1>
       <p id="banner-subtitle">
-        Find trusted vets, trainers, groomers, boarding, and pet food stores in Mumbai, Maharashtra.
+        Find trusted vets, trainers, groomers, boarding, and pet food stores across India. Select a city to get started.
       </p>
       <div class="banner-stats" id="banner-stats" aria-label="Directory statistics">
         <!-- Populated by app.js -->
-        <div class="stat-item"><div class="stat-value">44</div><div class="stat-label">Total Listings</div></div>
-        <div class="stat-item"><div class="stat-value">8</div><div class="stat-label">Vet Clinics</div></div>
-        <div class="stat-item"><div class="stat-value">16</div><div class="stat-label">Trainers &amp; Groomers</div></div>
-        <div class="stat-item"><div class="stat-value">10</div><div class="stat-label">Boarding Options</div></div>
       </div>
     </div>
   </section>
@@ -273,7 +269,7 @@
   <section class="cities-section" aria-labelledby="cities-heading">
     <div class="cities-section-inner">
       <h2 id="cities-heading">Browse by City</h2>
-      <p>We're expanding! Mumbai is live — more cities coming soon.</p>
+      <p>We're expanding! Mumbai, Assam, Bangalore, and Kolkata are live — more cities coming soon.</p>
       <div class="cities-grid" id="cities-grid" role="list">
         <!-- Populated by app.js -->
       </div>
@@ -305,9 +301,11 @@
         <div>
           <div class="footer-heading">Browse by City</div>
           <ul class="footer-links" aria-label="City links">
-            <li><a href="?city=mumbai">🌊 Mumbai</a></li>
+            <li><a href="?city=mumbai" data-city-link="mumbai">🌊 Mumbai</a></li>
+            <li><a href="?city=assam" data-city-link="assam">🍵 Assam</a></li>
+            <li><a href="?city=bangalore" data-city-link="bangalore">🌿 Bangalore</a></li>
+            <li><a href="?city=kolkata" data-city-link="kolkata">🎨 Kolkata</a></li>
             <li><span class="coming-soon-link" aria-label="Delhi — Coming Soon">🕌 Delhi <em>(Soon)</em></span></li>
-            <li><span class="coming-soon-link" aria-label="Bangalore — Coming Soon">🌿 Bangalore <em>(Soon)</em></span></li>
             <li><span class="coming-soon-link" aria-label="Pune — Coming Soon">🏔️ Pune <em>(Soon)</em></span></li>
             <li><span class="coming-soon-link" aria-label="Chennai — Coming Soon">🌴 Chennai <em>(Soon)</em></span></li>
             <li><span class="coming-soon-link" aria-label="Hyderabad — Coming Soon">💎 Hyderabad <em>(Soon)</em></span></li>
